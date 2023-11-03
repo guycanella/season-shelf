@@ -1,4 +1,27 @@
-export const SeasonType = (variations: any) => {
+import type { Product } from "apps/commerce/types.ts";
+interface ContentArrayProps {
+  type: string;
+  props: {
+    children: string;
+    className: string;
+    class: string;
+  };
+}
+
+interface ProductProps {
+  type: string;
+  variantActive: string;
+  products: Product[] | null;
+}
+interface VariationProps {
+  variations: {
+    variations: ProductProps[];
+    type: string;
+    products: Product[] | null;
+  };
+}
+
+export const SeasonType = (variations: VariationProps) => {
   const currentDate = new Date();
 
   // Seasons date
@@ -57,18 +80,18 @@ export const SeasonType = (variations: any) => {
     console.log("Não estamos no verão, fora do intervalo");
   }
 
-  const getSeasonVariant = variations.variations.variations.map(
-    (item: string) => item.variantActive,
+  const getSeasonVariant: string[] = variations.variations.variations.map(
+    (item: ProductProps) => item.variantActive,
   );
 
-  let contentArray: any[] = [];
+  const contentArray: ContentArrayProps[] = [];
   let hasAutumn = false;
   let hasWinter = false;
   let hasSpring = false;
   let hasSummer = false;
-  getSeasonVariant.forEach((item: any) => {
+  getSeasonVariant?.forEach((item: string) => {
     const firstWord = item.split(" ")[0].toLowerCase();
-    let content;
+    let content = null;
     switch (firstWord) {
       case "outono":
         console.log("Renderizar produto de outono");
@@ -92,12 +115,20 @@ export const SeasonType = (variations: any) => {
         break;
       default:
     }
+
     if (content) {
-      contentArray.push(content);
+      contentArray.push(content as ContentArrayProps);
     }
   });
   if (!hasAutumn || !hasWinter || !hasSpring || !hasSummer) {
-    contentArray.push(<div className="produto-padrao">Produto Padrão</div>);
+    contentArray.push({
+      type: "div",
+      props: {
+        children: "Produto Padrão",
+        className: "produto-padrao",
+        class: "produto-padrao",
+      },
+    });
   }
 
   return (
