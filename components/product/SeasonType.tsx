@@ -22,7 +22,6 @@ interface VariationProps {
 }
 
 export const SeasonType = (variations: VariationProps) => {
-  const currentDate = new Date();
 
   const getSeasonVariant: string[] = variations.variations.variations.map(
     (item: ProductProps) => item.variantActive,
@@ -65,14 +64,7 @@ export const SeasonType = (variations: VariationProps) => {
     }
   });
   if (!hasAutumn || !hasWinter || !hasSpring || !hasSummer) {
-    contentArray.push({
-      type: "div",
-      props: {
-        children: "Produto Padrão",
-        className: "produto-padrao",
-        class: "produto-padrao",
-      },
-    });
+    contentArray.push(<div className="produto-padrao">Produto Padrão</div>);
   }
 
   return (
