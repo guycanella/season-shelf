@@ -51,7 +51,7 @@ export interface DynamicShelfProps extends Omit<ProductShelfProps, 'products'> {
    * @title Pratilheira padrão
    * @description Sera exibidos esses produtos para caso não ouver variações validas para exibição
    */
-  defaultShelf: Product[]
+  defaultShelf: Product[] | null
   variations: VariantDatetime[] | VariantClimate | VariantSeason[]
 }
 
