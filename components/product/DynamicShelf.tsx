@@ -1,25 +1,25 @@
 import type { Product } from 'apps/commerce/types.ts'
 
 import ClimateShelf from "../ui/ProductShelfClimate.tsx";
-import { ProductShelfProps } from "$store/components/product/ProductShelf.tsx";
+import ProductShelf, { ProductShelfProps } from "$store/components/product/ProductShelf.tsx";
 
 
-interface VariantDatetime {
+export interface VariantDatetime {
   type: 'data'
   /**
    * @title Start range at date
-   * @format datetime
+   * @format time
    */
   variantStart: string
   /**
    * @title End range at date
-   * @format datetime
+   * @format time
    */
   variantEnd: string
   products: Product[] | null
 }
 
-interface VariantClimate {
+export interface VariantClimate {
   type: 'clima'
   /**
    * @title Temperature
@@ -29,13 +29,9 @@ interface VariantClimate {
    * @title Shelf specific
    */
   shelfToRender: Product[] | null
-  /**
-   * @title Shelf default
-   */
-  products: Product[] | null
 }
 
-interface VariantSeason {
+export interface VariantSeason {
   type: 'estacao'
   /**
    * @title Estação
@@ -45,15 +41,21 @@ interface VariantSeason {
 }
 
 export interface DynamicShelfProps extends Omit<ProductShelfProps, 'products'> {
-  variations: VariantDatetime | VariantClimate | VariantSeason
+  /**
+   * @title Pratilheira padrão
+   * @description Sera exibidos esses produtos para caso não ouver variações validas para exibição
+   */
+  defaultShelf: Product[]
+  variations: VariantDatetime[] | VariantClimate | VariantSeason
 }
 
-export default function DynamicShelf({ variations, ...restOfProps }: DynamicShelfProps) {
-
+export default function DynamicShelf({ defaultShelf, variations, ...restOfProps }: DynamicShelfProps) {
+  
+  console.log('typeof: ', typeof variations)
   if ("temperature" in variations) {
     return (
       <ClimateShelf
-        defaultShelf={variations.products}
+        defaultShelf={defaultShelf}
         shelfToRender={variations.shelfToRender}
         temperature={variations.temperature}
         {...restOfProps}
@@ -61,5 +63,5 @@ export default function DynamicShelf({ variations, ...restOfProps }: DynamicShel
     )
   }
 
-  return <div>teste</div>
+  return <ProductShelf products={defaultShelf} {...restOfProps} />
 }
