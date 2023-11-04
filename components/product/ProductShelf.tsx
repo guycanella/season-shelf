@@ -12,7 +12,7 @@ import { usePlatform } from "$store/sdk/usePlatform.tsx";
 import type { Product } from "apps/commerce/types.ts";
 import { mapProductToAnalyticsItem } from "apps/commerce/utils/productToAnalyticsItem.ts";
 
-export interface Props {
+export interface ProductShelfProps {
   products: Product[] | null;
   title?: string;
   description?: string;
@@ -29,7 +29,7 @@ function ProductShelf({
   description,
   layout,
   cardLayout,
-}: Props) {
+}: ProductShelfProps) {
   const id = useId();
   const platform = usePlatform();
 

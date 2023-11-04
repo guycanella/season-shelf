@@ -1,5 +1,9 @@
 import type { Product } from 'apps/commerce/types.ts'
 
+import ClimateShelf from "../ui/ProductShelfClimate.tsx";
+import { ProductShelfProps } from "$store/components/product/ProductShelf.tsx";
+
+
 interface VariantDatetime {
   type: 'data'
   /**
@@ -18,13 +22,16 @@ interface VariantDatetime {
 interface VariantClimate {
   type: 'clima'
   /**
-   * @title Start range at climate
+   * @title Temperature
    */
-  variantStart: number
+  temperature: number
   /**
-   * @title End range at climate
+   * @title Shelf specific
    */
-  variantEnd: number
+  shelfToRender: Product[] | null
+  /**
+   * @title Shelf default
+   */
   products: Product[] | null
 }
 
@@ -37,10 +44,22 @@ interface VariantSeason {
   products: Product[] | null
 }
 
-export interface Props {
-  variations: VariantDatetime[] | VariantClimate[] | VariantSeason[]
+export interface DynamicShelfProps extends Omit<ProductShelfProps, 'products'> {
+  variations: VariantDatetime | VariantClimate | VariantSeason
 }
 
-export default function DaynamicShelf(props: Props) {
+export default function DynamicShelf({ variations, ...restOfProps }: DynamicShelfProps) {
+
+  if ("temperature" in variations) {
+    return (
+      <ClimateShelf
+        defaultShelf={variations.products}
+        shelfToRender={variations.shelfToRender}
+        temperature={variations.temperature}
+        {...restOfProps}
+      />
+    )
+  }
+
   return <div>teste</div>
 }
