@@ -59,4 +59,6 @@ export default function TimeShelf ({ defaultShelf, variations, ...restOfProps }:
 
   if (renderProduct?.length)
     return <ProductShelf products={defaultShelf} {...restOfProps} />
+
+  return null
 }

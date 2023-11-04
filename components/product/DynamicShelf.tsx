@@ -2,6 +2,7 @@ import type { Product } from 'apps/commerce/types.ts'
 
 import ProductShelf, { ProductShelfProps } from "$store/components/product/ProductShelf.tsx";
 import ClimateShelf from "$store/components/product/ProductShelfClimate.tsx";
+import TimeShelf from "$store/components/product/TimeShelf.tsx";
 
 
 export interface VariantDatetime {
@@ -46,12 +47,24 @@ export interface DynamicShelfProps extends Omit<ProductShelfProps, 'products'> {
    * @description Sera exibidos esses produtos para caso não ouver variações validas para exibição
    */
   defaultShelf: Product[]
-  variations: VariantDatetime[] | VariantClimate | VariantSeason
+  variations: VariantDatetime[] | VariantClimate | VariantSeason[]
 }
 
 export default function DynamicShelf({ defaultShelf, variations, ...restOfProps }: DynamicShelfProps) {
   
-  console.log('typeof: ', typeof variations)
+  if (Array.isArray(variations)) {
+    const timeShelf = variations.filter(variant => variant.type === 'data') as VariantDatetime[]
+    const seasonShelf = variations.filter(variant => variant.type === 'estacao') as VariantSeason[]
+
+    if (timeShelf.length) {
+      return <TimeShelf defaultShelf={defaultShelf} variations={timeShelf} {...restOfProps} />
+    }
+
+    // if (seasonShelf.length) {
+    //   return <TimeShelf />
+    // }
+  }
+
   if ("temperature" in variations) {
     return (
       <ClimateShelf
