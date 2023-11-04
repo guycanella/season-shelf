@@ -33,12 +33,17 @@ export interface VariantClimate {
 }
 
 export interface VariantSeason {
-  type: 'estacao'
+  type: "estacao";
   /**
    * @title Estação
    */
-  variantActive: 'verão' | 'inverno'
-  products: Product[] | null
+  variantActive:
+    | "outono - 21 de março a 21 de junho"
+    | "inverno - 21 de junho a 23 de setembro"
+    | "primavera - 23 de setembro a 21 de dezembro"
+    | "verão - 21 de dezembro a 21 de março";
+
+  products: Product[] | null;
 }
 
 export interface DynamicShelfProps extends Omit<ProductShelfProps, 'products'> {
@@ -54,7 +59,7 @@ export default function DynamicShelf({ defaultShelf, variations, ...restOfProps 
   
   if (Array.isArray(variations)) {
     const timeShelf = variations.filter(variant => variant.type === 'data') as VariantDatetime[]
-    const seasonShelf = variations.filter(variant => variant.type === 'estacao') as VariantSeason[]
+    // const seasonShelf = variations.filter(variant => variant.type === 'estacao') as VariantSeason[]
 
     if (timeShelf.length) {
       return <TimeShelf defaultShelf={defaultShelf} variations={timeShelf} {...restOfProps} />

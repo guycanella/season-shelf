@@ -58,7 +58,7 @@ export default function TimeShelf ({ defaultShelf, variations, ...restOfProps }:
   const renderProduct = validateVariation?.products ?? defaultShelf
 
   if (renderProduct?.length)
-    return <ProductShelf products={defaultShelf} {...restOfProps} />
+    return <ProductShelf products={renderProduct} {...restOfProps} />
 
   return null
 }
