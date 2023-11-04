@@ -1,7 +1,7 @@
 import type { Product } from 'apps/commerce/types.ts'
 
-import ClimateShelf from "../ui/ProductShelfClimate.tsx";
 import { ProductShelfProps } from "$store/components/product/ProductShelf.tsx";
+import ClimateShelf from "$store/components/product/ProductShelfClimate.tsx";
 
 
 interface VariantDatetime {
