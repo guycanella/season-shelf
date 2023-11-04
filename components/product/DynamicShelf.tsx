@@ -59,15 +59,10 @@ export default function DynamicShelf({ defaultShelf, variations, ...restOfProps 
   
   if (Array.isArray(variations)) {
     const timeShelf = variations.filter(variant => variant.type === 'data') as VariantDatetime[]
-    // const seasonShelf = variations.filter(variant => variant.type === 'estacao') as VariantSeason[]
 
     if (timeShelf.length) {
       return <TimeShelf defaultShelf={defaultShelf} variations={timeShelf} {...restOfProps} />
     }
-
-    // if (seasonShelf.length) {
-    //   return <TimeShelf />
-    // }
   }
 
   if ("temperature" in variations) {
